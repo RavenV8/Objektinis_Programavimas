@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include <numeric>
 #include <random>
+#include <fstream>
+#include <sstream>
 
 using std::cout;
 using std::cin;
@@ -19,3 +21,4 @@ using std::fixed;
 using std::string;
 using std::vector;
 using std::numeric_limits;
+using std::stringstream;
