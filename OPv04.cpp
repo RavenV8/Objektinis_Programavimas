@@ -9,12 +9,30 @@ int main (){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////// Generavimas /////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    char a;
+    bool pasirinkimas; // naudojamas su char a pasirinkimui while cikle
+    do
+    {
+        if((a!='1' && a!='0')){ // 1 arba 0
+            cout << "Iveskite 1, jeigu norite sugeneruoti, jeigu norite naudoti esamus - iveskite 0: ";
+            cin>>a;
+            pasirinkimas = false; // nustamas default
+            cin.clear();
+            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+        }
+        else pasirinkimas = true;
+    }while(!pasirinkimas);
 
-    string failodydis="1000.txt";
+    double generav = 0, skaitym, rusiavim, isved, bendras;
 
-    double generav, skaitym, rusiavim, isved, bendras;
+    string failodydis;
 
-    generavimas(failodydis, 15, generav);
+    if(a=='1'){
+        failodydis="1000.txt";
+        generavimas(failodydis, 15, generav);
+    }
+    else failodydis = "Studentai1000.txt";
+    
     skaitymas (tempas, mas, skaitym, failodydis);
     rusiavimas(mas, vargsas, kietas, failodydis, rusiavim);
     isvedimas2(vargsas, failodydis, "vargsai.txt", isved);
@@ -35,7 +53,11 @@ int main (){
     remove("kietas.txt"); 
     cout << endl << endl;
 
-    failodydis="10000.txt";
+    if(a=='1'){
+        failodydis="10000.txt";
+        generavimas(failodydis, 15, generav);
+    }
+    else failodydis = "Studentai10000.txt";
 
     generavimas(failodydis, 15, generav);
     skaitymas (tempas, mas, skaitym, failodydis);
@@ -58,7 +80,11 @@ int main (){
     remove("kietas.txt");  
     cout << endl << endl;
 
-    failodydis="100000.txt";
+    if(a=='1'){
+        failodydis="100000.txt";
+        generavimas(failodydis, 15, generav);
+    }
+    else failodydis = "Studentai100000.txt";
 
     generavimas(failodydis, 15, generav);
     skaitymas (tempas, mas, skaitym, failodydis);
@@ -81,7 +107,11 @@ int main (){
     remove("kietas.txt");
     cout << endl << endl;
 
-    failodydis="1000000.txt";
+    if(a=='1'){
+        failodydis="1000000.txt";
+        generavimas(failodydis, 15, generav);
+    }
+    else failodydis = "Studentai1000000.txt";
 
     generavimas(failodydis, 15, generav);
     skaitymas (tempas, mas, skaitym, failodydis);
@@ -104,14 +134,18 @@ int main (){
     remove("kietas.txt"); 
     cout << endl << endl;
 
-    failodydis="10000000.txt";
+    if(a=='1'){
+        failodydis="10000000.txt";
+        generavimas(failodydis, 15, generav);
+    }
+    else failodydis = "Studentai10000000.txt";
 
     generavimas(failodydis, 15, generav);
     skaitymas (tempas, mas, skaitym, failodydis);
     rusiavimas(mas, vargsas, kietas, failodydis, rusiavim);
-    isvedimas2(vargsas, failodydis, "vargsai", isved);
+    isvedimas2(vargsas, failodydis, "vargsai.txt", isved);
     bendras=skaitym+rusiavim+isved;
-    isvedimas2(kietas, failodydis, "kietas", isved);
+    isvedimas2(kietas, failodydis, "kietas.txt", isved);
     bendras+=isved;
     cout << failodydis << " Elementu failo visas laikas: " << bendras << endl;
     for (int i=0 ; i<41 ; i++) cout<<"-";
@@ -126,11 +160,13 @@ int main (){
     remove("vargsai.txt");  
     remove("kietas.txt");
 
-    remove("1000.txt");
-    remove("10000.txt");
-    remove("100000.txt");
-    remove("1000000.txt");
-    remove("10000000.txt");
+    if(a=='1'){
+        remove("1000.txt");
+        remove("10000.txt");
+        remove("100000.txt");
+        remove("1000000.txt");
+        remove("10000000.txt");
+    }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////// Skaitymas arba Vedimas //////////////////////////////////////////
