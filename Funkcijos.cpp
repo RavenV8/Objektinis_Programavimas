@@ -1,11 +1,5 @@
 #include "Vektoriaus.h"
 
-struct studentas{
-    string vardas, pavarde;
-    vector <int> paz;
-    int egz;
-};
-
 void pild (studentas &temp){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////// Vardas ir Pavarde ///////////////////////////////////////////////
@@ -95,11 +89,11 @@ void pild (studentas &temp){
 ///////////////////////////////////////////// Skaitymas ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 
-void skaitymas (studentas &temp, vector <studentas> &mas) {
+void skaitymas (studentas &temp, vector <studentas> &mas, double &skaitym, string failodydis) {
     vector<string> splited;
-    string eil, df;
+    string eil, df=failodydis;
 
-    cout<<"Iveskite failo pavadinima: "; cin>>df;
+    skaitym=0;
 
     try {
         std::ifstream open_f(df);
@@ -113,6 +107,7 @@ void skaitymas (studentas &temp, vector <studentas> &mas) {
   }
 
     std::ifstream open_f(df);
+    auto start = std::chrono::high_resolution_clock::now(); auto st=start;
     while (open_f){ 
       if (!open_f.eof()) { // skaito iki kol baigiasi failas
           std::getline(open_f, eil);
@@ -120,6 +115,17 @@ void skaitymas (studentas &temp, vector <studentas> &mas) {
       else break;
     }
     open_f.close();
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> diff = end - start;
+
+    failodydis.erase(std::remove(failodydis.begin(), failodydis.end(), '.'), failodydis.end());
+    failodydis.erase(std::remove(failodydis.begin(), failodydis.end(), 't'), failodydis.end()); /// is pavadinimo pasidaryti dydi
+    failodydis.erase(std::remove(failodydis.begin(), failodydis.end(), 'x'), failodydis.end());
+
+    std::cout << failodydis << " elementu failo nuskaitymas uztruko: "<< diff.count() << " s\n";
+
+    skaitym=diff.count(); // grazina laiko skirtuma
 
     stringstream ss(splited[0]); // pirmoji perskelta eilute yra pradine ivestis
     string word;
@@ -177,6 +183,10 @@ double vidurkis(studentas& temp, int a) {
 bool palyginimas (studentas &a, studentas &b) {
     return a.vardas < b.vardas;
 }
+bool palyginimas2 (studentas &a, studentas &b) {
+    return a.bendr < b.bendr;
+}
+
 
 void isvedimas(vector<studentas> &temp){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -231,6 +241,8 @@ void isvedimas(vector<studentas> &temp){
         cout<<"Iveskite rezultatu failo pavadinima: ";cin>>txt_pavadinimas;
         std::ofstream out(txt_pavadinimas);
 
+        auto start = std::chrono::high_resolution_clock::now();
+
         out<<setw(10)<<left<<"Vardas"<<setw(15)<<left<<"Pavarde"<<"Galutinis "<<galutinis<<endl;
         for (int i=0 ; i<41 ; i++) out<<"-";
         out<<endl;
@@ -238,5 +250,108 @@ void isvedimas(vector<studentas> &temp){
             out << setw(15) << temp[i].vardas << setw(15) << temp[i].pavarde << setw(19) << fixed << setprecision(2) << vidurkis(temp[i], x) << endl;
         }
         out.close();
+
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> diff = end - start;
+        std::cout << "Failo isvedimas truko:  "<< diff.count() << " s\n";
        }
+}
+void generavimas(string filename, int kiek, double &generav){
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_int_distribution<int> dist (0, 10);
+
+    generav = 0;
+
+    std::ofstream rf (filename); // kokiu pavadinimu issaugojima
+
+    filename.erase(std::remove(filename.begin(), filename.end(), '.'), filename.end());
+    filename.erase(std::remove(filename.begin(), filename.end(), 't'), filename.end());
+    filename.erase(std::remove(filename.begin(), filename.end(), 'x'), filename.end());
+    int studKiek = stoi(filename);
+
+    auto start = std::chrono::high_resolution_clock::now();
+
+    rf << setw(25) << left << "Vardas" << setw(25) << left << "Pavarde";
+    for (int i=0 ; i<kiek ; i++){
+        rf << setw(5) << left << "ND"+to_string(i+1); // pazymiams taskai
+    }
+    rf << "Egz." << endl;
+
+    for (int i=0; i<studKiek ; i++) {
+        rf << setw(25) << left << "Vardas"+to_string(i+1) << setw(25) << left << "Pavarde"+to_string(i+1);
+        for (int j=0 ; j<kiek ; j++) {
+            rf << setw(5) << left << dist(mt);
+        }
+        rf << dist(mt) << endl;
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> diff = end - start;
+    std::cout << filename << " elementu sugeneruoti uztruko: "<< diff.count() << " s\n";
+
+    generav=diff.count();
+
+}
+void rusiavimas (vector <studentas> &temp, vector <studentas> &vargsas, vector <studentas> &kietas, string failodydis, double &rusiavim) {
+
+    rusiavim=0;
+
+    failodydis.erase(std::remove(failodydis.begin(), failodydis.end(), '.'), failodydis.end());
+    failodydis.erase(std::remove(failodydis.begin(), failodydis.end(), 't'), failodydis.end());
+    failodydis.erase(std::remove(failodydis.begin(), failodydis.end(), 'x'), failodydis.end());
+
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    for (int i=0 ; i<temp.size() ; i++) { // tikrinamas vidurkis kad paskui priskirti prie vienos ar kitos grupes
+        temp[i].bendr=vidurkis(temp[i], 1);
+        if (temp[i].bendr < 5) {
+            vargsas.push_back(temp[i]);
+        } else kietas.push_back(temp[i]);
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> diff = end - start;
+    std::cout << failodydis << " elementu suskirstymas i vargsus ir kietus uztruko: "<< diff.count() << " s\n";
+
+    rusiavim=diff.count();
+
+    start = std::chrono::high_resolution_clock::now();
+
+    sort(vargsas.begin(), vargsas.end(), palyginimas2);
+    sort(kietas.begin(), kietas.end(), palyginimas2);
+
+
+    end = std::chrono::high_resolution_clock::now();
+    diff = end - start;
+    std::cout << failodydis << " vargsu ir kietu elementu rusiavimas uztruko: "<< diff.count() << " s\n";
+
+    rusiavim+=diff.count();
+
+}
+void isvedimas2 (vector <studentas> &temp, string failodydis, string tipas, double &isved) {
+    
+    std::ofstream out(tipas);
+
+    isved=0;
+
+    auto start = std::chrono::high_resolution_clock::now();
+
+    out<<setw(10)<<left<<"Vardas"<<setw(15)<<left<<"Pavarde"<<"Galutinis (Vid.)" <<endl;
+    for (int i=0 ; i<41 ; i++) out<<"-";
+    for(int i = 0; i < temp.size(); i ++) {
+        out << setw(15) << temp[i].vardas << setw(15) << temp[i].pavarde << setw(19) << fixed << setprecision(2) << temp[i].bendr << endl;
+        }
+    out.close();
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> diff = end - start;
+
+    failodydis.erase(std::remove(failodydis.begin(), failodydis.end(), '.'), failodydis.end());
+    failodydis.erase(std::remove(failodydis.begin(), failodydis.end(), 't'), failodydis.end());
+    failodydis.erase(std::remove(failodydis.begin(), failodydis.end(), 'x'), failodydis.end());
+
+    std::cout << failodydis << " failu elemento " << tipas << " isvedimas uztruko: " << diff.count() << " s\n";
+
+    isved=diff.count();
 }
