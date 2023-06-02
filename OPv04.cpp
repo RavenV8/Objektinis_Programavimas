@@ -30,8 +30,9 @@ int main (){
     if(a=='1'){
         failodydis="1000.txt";
         generavimas(failodydis, 15, generav);
+        remove("1000.txt");
     }
-    else failodydis = "Studentai1000.txt";
+    else failodydis = "1000.txt";
     
     skaitymas (tempas, mas, skaitym, failodydis);
     rusiavimas(mas, vargsas, kietas, failodydis, rusiavim);
@@ -56,8 +57,9 @@ int main (){
     if(a=='1'){
         failodydis="10000.txt";
         generavimas(failodydis, 15, generav);
+        remove("10000.txt");
     }
-    else failodydis = "Studentai10000.txt";
+    else failodydis = "10000.txt";
 
     generavimas(failodydis, 15, generav);
     skaitymas (tempas, mas, skaitym, failodydis);
@@ -83,8 +85,9 @@ int main (){
     if(a=='1'){
         failodydis="100000.txt";
         generavimas(failodydis, 15, generav);
+        remove("100000.txt");
     }
-    else failodydis = "Studentai100000.txt";
+    else failodydis = "100000.txt";
 
     generavimas(failodydis, 15, generav);
     skaitymas (tempas, mas, skaitym, failodydis);
@@ -110,8 +113,9 @@ int main (){
     if(a=='1'){
         failodydis="1000000.txt";
         generavimas(failodydis, 15, generav);
+        remove("1000000.txt");
     }
-    else failodydis = "Studentai1000000.txt";
+    else failodydis = "1000000.txt";
 
     generavimas(failodydis, 15, generav);
     skaitymas (tempas, mas, skaitym, failodydis);
@@ -137,8 +141,9 @@ int main (){
     if(a=='1'){
         failodydis="10000000.txt";
         generavimas(failodydis, 15, generav);
+        remove("10000000.txt");
     }
-    else failodydis = "Studentai10000000.txt";
+    else failodydis = "10000000.txt";
 
     generavimas(failodydis, 15, generav);
     skaitymas (tempas, mas, skaitym, failodydis);
@@ -159,14 +164,6 @@ int main (){
 
     remove("vargsai.txt");  
     remove("kietas.txt");
-
-    if(a=='1'){
-        remove("1000.txt");
-        remove("10000.txt");
-        remove("100000.txt");
-        remove("1000000.txt");
-        remove("10000000.txt");
-    }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////// Skaitymas arba Vedimas //////////////////////////////////////////
