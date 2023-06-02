@@ -4,7 +4,7 @@
 * Programa parašyta su trijų tipų konteineriais, su std::vector, std::list ir std::deque.
 * Tikrinama, su kurio tipo konteineriais programa veiks sparčiausiai.
 
-	Kont. tipas	1 000	10 000	100 000	1 000 000	10 000 000
+Kont. tipas|1 000|10 000|100 000|1 000 000|10 000 000
   Nuskaitymas	Vector	0.004	0.032	0.31	3.16	31.10
   List	0.004	0.031	0.32	3.12	31.28
   Deque	0.004	0.032	0.32	3.14	34.01
